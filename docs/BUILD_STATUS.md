@@ -8,16 +8,24 @@ library release; personal mastery and production usage are separate milestones.
 | M0 — skeleton | Complete: installable package, CLI, schema, four specification documents |
 | M1 — MVP | Complete: durable receipt, duplicate/conflict handling, claim, local atomic results, JSONL example, inspection |
 | M2 — recovery | Complete: generation fencing, renewal, expiry/reclaim, backoff, dead letters and explicit replay |
-| M3 — engineering | Implemented and locally verified: real process races/crashes, validation, structured logging, strict typing, lint, packaging and CI definition; hosted CI pending publication |
-| M4 — demo | Local deterministic demo works; public repository publication pending |
-| M5 — measurements | Reproducible benchmark implemented; measurements running. Real collector pilot and human review remain future work |
+| M3 — engineering | Implemented and locally verified: real process races/crashes, validation, structured logging, strict typing, lint, packaging and CI definition; hosted jobs are queued, so cross-platform success is not yet confirmed |
+| M4 — demo | Complete: public repository at https://github.com/Jiang6082/redelivery and one-command deterministic local demo; no hosted service required |
+| M5 — measurements | Initial 1/2/4-worker measurements complete; real collector pilot, repeated measurements and human review remain future work |
 
 ## Local verification
 
-Python 3.12.10, SQLite 3.49.1, Windows. Latest full test run: **51 passed in
-27.58 seconds**, with **91% statement coverage** after enabling coverage in
-subprocesses. Formatting, Ruff and strict mypy pass. Initial sdist/wheel build
-passed; final packaging verification follows the measurement update.
+Python 3.12.10, SQLite 3.49.1, Windows. Latest full test run: **54 passed in
+17.09 seconds**, with **93% statement coverage** after enabling coverage in
+subprocesses. Formatting, Ruff and strict mypy pass. Final sdist/wheel build
+passed with source, tests, fixtures, documentation and the library typing marker.
+The wheel was installed into a separate empty virtual environment; the isolated
+demo passed there and the wheel contains `py.typed`. No runtime packages were
+installed beyond Redelivery itself.
+
+Hosted CI is configured for Python 3.11 and 3.12 on Ubuntu and Windows. At the last
+inspection GitHub had accepted the jobs but left them queued without runner steps.
+Local success is confirmed; hosted/cross-platform success is not yet established.
+See the [current CI runs](https://github.com/Jiang6082/redelivery/actions/workflows/ci.yml).
 
 Coverage is an aid to finding untested branches, not a correctness guarantee.
 Forced `os._exit` processes do not flush coverage, by design. Their externally
@@ -36,6 +44,15 @@ handle. This prevented temporary-directory cleanup after a successful workload.
 The benchmark now closes explicitly, and a subprocess regression test exercises
 the complete run and cleanup. Initial failed runs produced no valid measurement
 report and are not used as performance evidence.
+
+## Observed measurements
+
+Each run accepted 1,000 unique inputs, suppressed 200 repeated deliveries and
+persisted exactly 1,000 local results. One/two/four workers delivered 48.40/46.77/
+45.67 results per second; corresponding p95 claim/complete latencies were 24.046/
+141.830/219.093 ms. These are single local runs of tiny handlers, with FULL
+synchronization. [Protocol, raw reports and interpretation](MEASUREMENTS.md) explain
+why this is evidence of a contention tradeoff rather than a speedup claim.
 
 ## Next evidence to earn
 

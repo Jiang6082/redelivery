@@ -1,0 +1,74 @@
+{
+  "duplicate_same_job": true,
+  "history": [
+    {
+      "at": 1000.0,
+      "detail": "",
+      "event": "enqueued",
+      "generation": 0,
+      "id": 1,
+      "job_id": 1
+    },
+    {
+      "at": 1000.0,
+      "detail": "worker-A",
+      "event": "claimed",
+      "generation": 1,
+      "id": 2,
+      "job_id": 1
+    },
+    {
+      "at": 1010.0,
+      "detail": "worker-B",
+      "event": "reclaimed",
+      "generation": 2,
+      "id": 3,
+      "job_id": 1
+    },
+    {
+      "at": 1010.0,
+      "detail": "",
+      "event": "succeeded",
+      "generation": 2,
+      "id": 4,
+      "job_id": 1
+    }
+  ],
+  "job": {
+    "attempts": 2,
+    "available_at": 1000.0,
+    "created_at": 1000.0,
+    "event_key": "posting-42-v1",
+    "generation": 2,
+    "id": 1,
+    "lease_until": null,
+    "max_attempts": 3,
+    "owner": null,
+    "payload": {
+      "company": "Example Labs",
+      "location": "Chicago",
+      "title": "  SWE   Intern "
+    },
+    "result": {
+      "company": "Example Labs",
+      "location": "Chicago",
+      "schema_version": 1,
+      "title": "SWE Intern"
+    },
+    "source": "synthetic",
+    "status": "succeeded",
+    "updated_at": 1010.0
+  },
+  "new_generation": 2,
+  "old_generation": 1,
+  "physical_crash_test": "python -m pytest tests/test_processes.py -v",
+  "scenario": "logical-clock duplicate / abandoned lease / stale worker",
+  "stale_worker_rejected": true,
+  "stats": {
+    "dead": 0,
+    "leased": 0,
+    "pending": 0,
+    "results": 1,
+    "succeeded": 1
+  }
+}

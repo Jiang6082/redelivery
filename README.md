@@ -1,5 +1,7 @@
 # Redelivery
 
+[![CI](https://github.com/Jiang6082/redelivery/actions/workflows/ci.yml/badge.svg)](https://github.com/Jiang6082/redelivery/actions/workflows/ci.yml)
+
 A small, durable event inbox for Python ingestion jobs. The interesting part is
 what happens after a worker crashes: a replacement can finish the job while an
 expired worker is prevented from publishing an old result.
@@ -58,6 +60,7 @@ publication transaction. Physical disk failures and power loss are not simulated
 - [Interview questions and learning exercises](INTERVIEW_VALUE.md)
 - [Build status](docs/BUILD_STATUS.md)
 - [Python API and operating notes](docs/OPERATIONS.md)
+- [Measured contention and benchmark protocol](docs/MEASUREMENTS.md)
 
 Keep the live database on a local disk. The default is SQLite rollback journal
 mode with FULL synchronization and bounded lock waits. See the architecture for

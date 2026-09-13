@@ -1,0 +1,42 @@
+{
+  "workload": "preloaded synthetic integer payloads; one local result per unique input",
+  "python": "3.12.10",
+  "sqlite": "3.49.1",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "machine": "AMD64",
+  "journal_mode": "delete",
+  "synchronous": "FULL",
+  "busy_timeout_seconds": 5,
+  "unique_inputs": 1000,
+  "duplicate_deliveries": 200,
+  "total_deliveries": 1200,
+  "workers": 2,
+  "per_worker_completed": [
+    565,
+    435
+  ],
+  "ingestion_seconds_including_duplicates": 10.496385,
+  "unique_enqueue_p95_ms": 13.101,
+  "drain_seconds_including_process_start": 21.380774,
+  "drain_results_per_second": 46.77,
+  "claim_complete_p50_ms": 19.819,
+  "claim_complete_p95_ms": 141.83,
+  "claim_complete_p99_ms": 263.113,
+  "counts": {
+    "pending": 0,
+    "leased": 0,
+    "succeeded": 1000,
+    "dead": 0,
+    "results": 1000
+  },
+  "integrity_check": "ok",
+  "database_bytes": 311296,
+  "limitations": "Local run; warm OS cache; no network or forced crashes; latency excludes queue wait; no speedup claim.",
+  "measured_on": "2026-09-13",
+  "repetitions": 1,
+  "source_commit": "e248a5292be42cdd8f92ca53c1e9cfb8736745df",
+  "cpu": "Intel Core i7-9700 @ 3.00 GHz",
+  "logical_processors": 8,
+  "memory_bytes": 34293972992,
+  "disk": "Samsung SSD 990 PRO 1TB"
+}

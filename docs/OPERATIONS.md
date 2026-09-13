@@ -12,9 +12,8 @@ if lease is not None:
     value = lease.payload.get("value")
     if not isinstance(value, int):
         raise ValueError("Expected an integer value")
-    result = {"doubled": value * 2}
     try:
-        inbox.complete(lease, result)
+        inbox.complete(lease, {"doubled": value * 2})
     except LostLease:
         # Discard an obsolete local result; another worker may own the job now.
         pass

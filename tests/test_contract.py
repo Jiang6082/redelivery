@@ -224,3 +224,21 @@ def test_worker_success_idle_and_invalid_result(inbox):
     assert run_one(inbox, "one") == "idle"
     inbox.enqueue("a", "2", {}, max_attempts=1)
     assert run_one(inbox, "one", lambda _: {"invalid": float("nan")}) == "dead"
+
+
+@pytest.mark.parametrize("handler_end", ["result", "exception", "invalid_result"])
+def test_worker_discards_expired_computation(inbox, clock, handler_end):
+    inbox.enqueue("a", "1", {})
+
+    def slow_handler(payload):
+        clock.now += 31
+        if handler_end == "exception":
+            raise RuntimeError("computation failed after lease expired")
+        return {"answer": float("nan") if handler_end == "invalid_result" else 42}
+
+    assert run_one(inbox, "slow", slow_handler) == "lost"
+    assert inbox.stats()["results"] == 0
+    replacement = inbox.claim("replacement")
+    assert replacement.generation == 2
+    inbox.complete(replacement, {"answer": "current"})
+    assert inbox.stats()["results"] == 1
