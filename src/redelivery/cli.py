@@ -92,6 +92,10 @@ def parser() -> argparse.ArgumentParser:
     replay = commands.add_parser("replay", help="Explicitly reset a dead letter's attempt budget")
     replay.add_argument("job_id", type=int)
     commands.add_parser("demo", help="Run an isolated deterministic recovery timeline")
+    collector = commands.add_parser("collect", help="Read one public Greenhouse board")
+    collector.add_argument("board")
+    export = commands.add_parser("export", help="Export an audit prefix for TraceScope")
+    export.add_argument("file", type=Path)
     return root
 
 
@@ -134,6 +138,14 @@ def main(argv: list[str] | None = None) -> int:
         elif args.command == "replay":
             inbox.replay(args.job_id)
             emit({"replayed": args.job_id})
+        elif args.command == "collect":
+            from .greenhouse import fetch_board, ingest_board
+
+            emit(ingest_board(inbox, args.board, fetch_board(args.board)))
+        elif args.command == "export":
+            from .trace import export_trace
+
+            emit(export_trace(inbox, args.file))
     except (ValueError, OSError, sqlite3.Error) as exc:
         log.error("operation_failed", extra={"error_type": type(exc).__name__})
         print(

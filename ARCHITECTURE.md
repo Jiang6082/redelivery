@@ -94,6 +94,12 @@ eligibility time then job ID, with no strict global FIFO promise across retries.
 - `cli.py`: argument parsing, JSONL validation, bounded output, exit codes.
 - `demo.py`: deterministic timeline explaining duplicates, recovery, stale owners.
 - `benchmark.py`: bounded multi-process workload with machine-readable results.
+- `greenhouse.py`: bounded public-feed fetch, whole-response validation and content identities.
+- `trace.py`: paged high-water audit export and atomic output-file replacement.
+
+The collector and exporter preserve the existing transaction model. Export uses
+immutable transition IDs to capture a stable prefix with short read transactions.
+See [integration contracts](docs/COLLECTOR_AND_TRACES.md) for failure and privacy boundaries.
 
 ## Failure table
 

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "redelivery"
-version = "0.1.0"
+version = "0.2.0"
 description = "A small durable event inbox with fenced leases and reproducible crash recovery"
 readme = "README.md"
 requires-python = ">=3.11"

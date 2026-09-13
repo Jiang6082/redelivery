@@ -1,0 +1,31 @@
+{
+  "observed_at": "2026-09-13T05:18:14.524493+00:00",
+  "source": "https://boards-api.greenhouse.io/v1/boards/stripe/jobs",
+  "feed_bytes": 395340,
+  "feed_sha256": "5e6693529a132a5213dc1fc2eb3701a689f40cddb73ebd376e107670a6e1ae22",
+  "first_delivery": {
+    "accepted": 633,
+    "duplicates": 0
+  },
+  "identical_redelivery": {
+    "accepted": 0,
+    "duplicates": 633
+  },
+  "stats": {
+    "pending": 0,
+    "leased": 0,
+    "succeeded": 633,
+    "dead": 0,
+    "results": 633
+  },
+  "trace": {
+    "events": 1899,
+    "through": 1899
+  },
+  "ingestion_seconds": 4.9387,
+  "processing_seconds": 9.7499,
+  "python": "3.12.10",
+  "sqlite": "3.49.1",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "scope": "One HTTP response delivered twice; single local worker; no injected crash. This is a disposable integration pilot, not sustained usage or a load benchmark."
+}

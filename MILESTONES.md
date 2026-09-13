@@ -28,7 +28,7 @@ and explain the tests before using this as an interview project.
 
 ## After this build
 
-First integrate one synthetic/public-data collector in a disposable database and
-record observed duplicate/retry counts for a week. Request a human review of the
-lease contract. Do not add a dashboard or remote queue before the core receives
-feedback. See docs/BUILD_STATUS.md for the actual completion and validation state.
+A disposable public Greenhouse collector pilot is complete, and TraceScope now
+provides a separate interactive inspector for its audit history. Next, record
+observed behavior over repeated real runs and request a human review of the lease
+contract. See docs/BUILD_STATUS.md for actual validation and unfinished evidence.

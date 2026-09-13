@@ -404,6 +404,31 @@ class Inbox:
                 )
             ]
 
+    def audit_high_water(self) -> int:
+        """Capture the end of an immutable audit prefix without holding a long read lock."""
+        with self._transaction(write=False) as db:
+            return int(db.execute("SELECT coalesce(max(id),0) FROM transitions").fetchone()[0])
+
+    def audit_page(self, *, after: int, through: int, limit: int = 1000) -> list[Payload]:
+        self._page(after, limit)
+        if type(through) is not int or through < 0:
+            raise ValueError("through must be a nonnegative integer")
+        with self._transaction(write=False) as db:
+            return [
+                cast(Payload, dict(row))
+                for row in db.execute(
+                    """SELECT t.*,j.source,
+                    CASE WHEN t.event='replayed' THEN 'operator' ELSE
+                    coalesce((SELECT c.detail FROM transitions c
+                      WHERE c.job_id=t.job_id AND c.generation=t.generation AND c.id<=t.id
+                      AND c.event IN ('claimed','reclaimed') ORDER BY c.id DESC LIMIT 1),
+                      'producer') END AS worker
+                    FROM transitions t JOIN jobs j ON j.id=t.job_id
+                    WHERE t.id>? AND t.id<=? ORDER BY t.id LIMIT ?""",
+                    (after, through, limit),
+                )
+            ]
+
     @staticmethod
     def _page(after: int, limit: int) -> None:
         if type(after) is not int or after < 0 or type(limit) is not int or not 1 <= limit <= 1000:
