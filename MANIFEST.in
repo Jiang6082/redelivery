@@ -1,0 +1,4 @@
+include *.md requirements-dev.lock LICENSE
+recursive-include examples *.jsonl
+recursive-include docs *.md *.json
+recursive-include tests *.py
