@@ -8,7 +8,7 @@ library release; personal mastery and production usage are separate milestones.
 | M0 — skeleton | Complete: installable package, CLI, schema, four specification documents |
 | M1 — MVP | Complete: durable receipt, duplicate/conflict handling, claim, local atomic results, JSONL example, inspection |
 | M2 — recovery | Complete: generation fencing, renewal, expiry/reclaim, backoff, dead letters and explicit replay |
-| M3 — engineering | Implemented and locally verified: real process races/crashes, validation, structured logging, strict typing, lint, packaging and CI definition; hosted jobs are queued, so cross-platform success is not yet confirmed |
+| M3 — engineering | Complete for the defined library scope: real process races/crashes, validation, logging, strict typing, lint, packaging; all four hosted Linux/Windows CI jobs passed |
 | M4 — demo | Complete: public repository at https://github.com/Jiang6082/redelivery and one-command deterministic local demo; no hosted service required |
 | M5 — measurements | Initial 1/2/4-worker measurements complete; real collector pilot, repeated measurements and human review remain future work |
 
@@ -22,10 +22,12 @@ The wheel was installed into a separate empty virtual environment; the isolated
 demo passed there and the wheel contains `py.typed`. No runtime packages were
 installed beyond Redelivery itself.
 
-Hosted CI is configured for Python 3.11 and 3.12 on Ubuntu and Windows. At the last
-inspection GitHub had accepted the jobs but left them queued without runner steps.
-Local success is confirmed; hosted/cross-platform success is not yet established.
-See the [current CI runs](https://github.com/Jiang6082/redelivery/actions/workflows/ci.yml).
+Hosted CI passed for Python 3.11 and 3.12 on both Ubuntu and Windows at source
+commit `ccf80e5d949e170c458df285611ed4b1d45592d2`. All four jobs completed lint,
+format checks, strict types, tests, demo and package builds successfully.
+[Verified CI run](https://github.com/Jiang6082/redelivery/actions/runs/34738575111).
+The following documentation-only commit records that outcome without changing
+the verified runtime, tests, dependencies or workflow.
 
 Coverage is an aid to finding untested branches, not a correctness guarantee.
 Forced `os._exit` processes do not flush coverage, by design. Their externally
